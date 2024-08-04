@@ -49,18 +49,12 @@ func displayFiles(files []FileInfo) {
 	table.SetHeader([]string{"Name", "Size (Bytes)", "Modified Time", "Permissions", "Type"})
 
 	for _, file := range files {
-		fileType := "File"
-
-		if file.IsDir {
-			fileType = "Directory"
-		}
-
 		table.Append([]string{
 			file.Name,
 			fmt.Sprintf("%d", file.Size),
 			file.ModTime.Format("2006-01-02 15:04:05"),
 			file.Mode.String(),
-			fileType,
+			map[bool]string{true: "Directory", false: "File"}[file.IsDir],
 		})
 	}
 	table.Render()
