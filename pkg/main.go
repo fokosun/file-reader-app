@@ -5,6 +5,7 @@ import (
 	"io/fs"
 	"log"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/olekukonko/tablewriter"
@@ -61,9 +62,17 @@ func displayFiles(files []FileInfo) {
 }
 
 func main() {
-	path := "./files/"
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("Error getting current working directory: %v", err)
+	}
 
-	files, err := readDirectory(path)
+	// Construct the path relative to the current working directory
+	rootPath := filepath.Join(cwd, "files")
+
+	// path := "../files/"
+
+	files, err := readDirectory(rootPath)
 	if err != nil {
 		log.Fatalf("Error reading directory: %v", err)
 	}
