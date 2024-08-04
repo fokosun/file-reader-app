@@ -1,11 +1,9 @@
-package main
+package handlers
 
 import (
 	"fmt"
 	"io/fs"
-	"log"
 	"os"
-	"path/filepath"
 	"time"
 
 	"github.com/olekukonko/tablewriter"
@@ -19,7 +17,7 @@ type FileInfo struct {
 	IsDir   bool
 }
 
-func readDirectory(path string) ([]FileInfo, error) {
+func ReadDirectory(path string) ([]FileInfo, error) {
 	var files []FileInfo
 
 	items, err := os.ReadDir(path)
@@ -45,7 +43,7 @@ func readDirectory(path string) ([]FileInfo, error) {
 	return files, nil
 }
 
-func displayFiles(files []FileInfo) {
+func DisplayFiles(files []FileInfo) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Name", "Size (Bytes)", "Modified Time", "Permissions", "Type"})
 
@@ -59,23 +57,4 @@ func displayFiles(files []FileInfo) {
 		})
 	}
 	table.Render()
-}
-
-func main() {
-	cwd, err := os.Getwd()
-	if err != nil {
-		log.Fatalf("Error getting current working directory: %v", err)
-	}
-
-	// Construct the path relative to the current working directory
-	rootPath := filepath.Join(cwd, "files")
-
-	// path := "../files/"
-
-	files, err := readDirectory(rootPath)
-	if err != nil {
-		log.Fatalf("Error reading directory: %v", err)
-	}
-
-	displayFiles(files)
 }
