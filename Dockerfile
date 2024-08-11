@@ -1,5 +1,5 @@
 # Use the official Alpine image as a base
-FROM alpine:latest
+FROM --platform=linux/arm64 alpine:latest
 
 # Install OpenSSH server
 RUN apk add --no-cache openssh
